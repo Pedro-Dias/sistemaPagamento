@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -53,6 +54,7 @@ public class secondServlet extends HttpServlet {
 			valor = din;
 
 		}
+	
 		mov.setTotalPago(valor);
 		mov.setNumBoletos(Integer.parseInt(qtdBoletos));
 
@@ -86,6 +88,9 @@ public class secondServlet extends HttpServlet {
 												// credito do cliente
 
 			dao2.salvarCredito(cred);
+		}else{
+			resto = valor - valorF;
+			
 		}
 
 		// FATURA
@@ -131,8 +136,18 @@ public class secondServlet extends HttpServlet {
 
 			faturaDao dao3 = new faturaDao();
 			dao3.salvaFatura(fatura);
-
+                    
 		}
+		
+		PrintWriter out = response.getWriter();
+		out.println("<html>");
+		out.println("<body>");
+		out.println("<script>");
+		out.println("setTimeout('window.location='index.jsp'',500);");
+		out.println("alert('PAGAMENTO REALIZADO COM SUCESSO ! ! ! ');");
+		out.println("</script>");
+		out.println("</body>");
+		out.println("</html>");
 
 	}
 

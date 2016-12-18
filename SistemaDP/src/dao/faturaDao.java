@@ -2,8 +2,10 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import entidades.Fatura;
 
@@ -38,6 +40,31 @@ public class faturaDao {
 			throw new RuntimeException(e);
 		}
 
+	}
+	
+	public List<Fatura> verificar(Fatura fat){
+		
+		
+		PreparedStatement stmt;
+		try {
+			List<Fatura> dados = new ArrayList<Fatura>();
+			String sql = "SELECT codigoFatura from fatura WHERE codigoFatura=?";
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, fat.getCodigoFatura());
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next()){
+				Fatura fatu = new Fatura();
+				fatu.setCodigoFatura(rs.getInt("codigoFatura"));
+				dados.add(fatu);
+			}
+			
+			rs.close();
+			return dados;
+			
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }
